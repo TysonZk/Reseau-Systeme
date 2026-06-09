@@ -100,3 +100,29 @@ Ce que le script récupère :
 | GPU | Nom, Device ID, PNP Device ID, version driver, VRAM |
 | Réseau | MAC, NetCfgInstanceId, IP, PNP Device ID |
 | Moniteurs | Nom, serial, instance |
+
+---
+
+### cleaner.ps1
+
+Nettoie les fichiers temporaires de Windows, navigateurs, GPU et jeux en un clic.
+
+**Utilisation :**
+
+Lancer PowerShell en administrateur et executer :
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+Quand il demande confirmation taper `O` puis entrée, ensuite :
+```powershell
+.\cleaner.ps1
+```
+
+Ce que le script nettoie :
+
+| Catégorie | Détail |
+|---|---|
+| Windows | Temp, prefetch, Windows Update, WER, miniatures, fichiers récents, jump lists, logs, crash dumps, shader cache, DNS, corbeille |
+| Navigateurs | Chrome, Edge, Firefox, Brave, Opera |
+| GPU | NVIDIA / AMD / Intel shader cache |
+| Jeux | Steam, Epic, EA App, Ubisoft Connect, Battle.net, Riot/Valorant, League of Legends, Minecraft, Rockstar/GTA V, Discord |
