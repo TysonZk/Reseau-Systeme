@@ -36,9 +36,9 @@ Quand il demande confirmation taper `O` puis entrée, ensuite :
 
 ---
 
-### change_hwid.ps1
+### spoofing.ps1
 
-Change le HWID (identifiants matériels) sur Windows.
+Spoof les identifiants matériels et logiciels sur Windows.
 
 **Utilisation :**
 
@@ -48,11 +48,24 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 ```
 Quand il demande confirmation taper `O` puis entrée, ensuite :
 ```powershell
-.\change_hwid.ps1
+.\spoofing.ps1
 ```
 
-- Affiche les identifiants actuels (MachineGuid, HwProfileGuid, SQM MachineId)
-- Génère de nouveaux identifiants aléatoires
-- Redémarrer le PC pour appliquer les changements
+Ce que le script modifie :
 
-> **Note :** Ce script couvre le spoofing au niveau registre et logiciel (MachineGuid, SMBIOS, NIC GUIDs, volume serial...). Les anti-cheats kernel-level comme Vanguard, EAC ou BattlEye utilisent des drivers ring-0 qui lisent le hardware directement (serial disque, GPU HWID, TPM) et ne sont pas affectés par ce script.
+| Identifiant | Description |
+|---|---|
+| MachineGuid | Identifiant principal de la machine Windows |
+| HwProfileGuid | GUID du profil matériel |
+| SQM MachineId | Identifiant de télémétrie Microsoft |
+| ProductId | Identifiant produit Windows |
+| BuildGUID | GUID de build Windows |
+| InstallDate | Date d'installation Windows (aléatoire) |
+| BIOS Version / Vendor | Informations BIOS spoofées |
+| System Manufacturer / Product | Fabricant et modèle carte mère spoofés |
+| ComputerName | Nom du PC (personnalisable ou aléatoire) |
+| SMBIOS UUID | UUID système lu par WMI (patch binaire) |
+| NIC GUIDs | GUID de chaque adaptateur réseau physique |
+| Volume Serial (C:) | Numéro de série du volume C: via VolumeID Sysinternals |
+
+> **Note :** Ce script couvre le spoofing au niveau registre et logiciel. Les anti-cheats kernel-level comme Vanguard, EAC ou BattlEye utilisent des drivers ring-0 qui lisent le hardware directement (serial disque, GPU HWID, TPM) et ne sont pas affectés par ce script.
