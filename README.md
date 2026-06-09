@@ -26,6 +26,9 @@ Change l'adresse MAC d'une interface réseau (Windows).
 Lancer PowerShell en administrateur et executer :
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+Quand il demande confirmation taper `O` puis entrée, ensuite :
+```powershell
 .\change_mac.ps1
 ```
 
