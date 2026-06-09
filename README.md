@@ -22,10 +22,8 @@ Change l'adresse MAC d'une interface réseau.
 Change l'adresse MAC d'une interface réseau (Windows).
 
 **Utilisation :**
-```powershell
-.\change_mac.ps1
-```
-> Lancer PowerShell en administrateur.
+
+Lancer `change_mac.bat` en administrateur (clic droit → Exécuter en tant qu'administrateur).
 
 - Liste les interfaces réseau physiques disponibles
 - Choix entre MAC aléatoire ou manuelle
