@@ -126,3 +126,29 @@ Ce que le script nettoie :
 | Navigateurs | Chrome, Edge, Firefox, Brave, Opera |
 | GPU | NVIDIA / AMD / Intel shader cache |
 | Jeux | Steam, Epic, EA App, Ubisoft Connect, Battle.net, Riot/Valorant, League of Legends, Minecraft, Rockstar/GTA V, Discord |
+
+---
+
+### optimize.ps1
+
+Optimise les performances de Windows par catégorie avec confirmation avant chaque étape.
+
+**Utilisation :**
+
+Lancer PowerShell en administrateur et executer :
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+Quand il demande confirmation taper `O` puis entrée, ensuite :
+```powershell
+.\optimize.ps1
+```
+
+| Catégorie | Détail |
+|---|---|
+| Performance générale | Plan haute performance, effets visuels, animations, transparence, priorité CPU, tips désactivés |
+| Services inutiles | Superfetch, télémétrie, Xbox services, géolocalisation, fax, WMP, etc. |
+| Gaming | Game Mode, GPU Scheduling, Game Bar désactivé, Nagle algorithm, priorité GPU |
+| Télémétrie | Telemetrie minimale, pub personnalisées, rapport d'erreurs, Cortana désactivés |
+
+> Redémarrer le PC après exécution pour appliquer tous les changements.
