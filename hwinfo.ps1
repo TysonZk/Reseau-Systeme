@@ -126,4 +126,34 @@ Get-CimInstance WmiMonitorID -Namespace root\wmi -EA SilentlyContinue | ForEach-
     Write-Host ""
 }
 
+Section "PILOTES GPU - MISE A JOUR"
+Get-CimInstance Win32_VideoController | Where-Object { $_.Name -notmatch "Microsoft|Basic" } | ForEach-Object {
+    $name          = $_.Name
+    $driverVersion = $_.DriverVersion
+    $driverDate    = $_.DriverDate
+    $vendor        = if ($name -match "NVIDIA") { "NVIDIA" } elseif ($name -match "AMD|Radeon") { "AMD" } elseif ($name -match "Intel") { "Intel" } else { "Inconnu" }
+
+    Row "GPU"             $name
+    Row "Version pilote"  $driverVersion
+    Row "Date pilote"     $driverDate
+
+    $ageJours = if ($driverDate) { ([datetime]::Now - $driverDate).Days } else { $null }
+
+    if ($ageJours -ne $null) {
+        if ($ageJours -gt 180) {
+            Write-Host ("  {0,-25} : PILOTE ANCIEN ({1} jours) - mise a jour recommandee" -f "Statut", $ageJours) -ForegroundColor Yellow
+        } else {
+            Write-Host ("  {0,-25} : OK ({1} jours)" -f "Statut", $ageJours) -ForegroundColor Green
+        }
+    }
+
+    switch ($vendor) {
+        "NVIDIA" { Write-Host "  Telecharger             : https://www.nvidia.com/fr-fr/drivers/" }
+        "AMD"    { Write-Host "  Telecharger             : https://www.amd.com/fr/support" }
+        "Intel"  { Write-Host "  Telecharger             : https://www.intel.fr/content/www/fr/fr/download-center/home.html" }
+    }
+
+    Write-Host ""
+}
+
 Write-Host ""
