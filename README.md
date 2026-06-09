@@ -23,13 +23,9 @@ Change l'adresse MAC d'une interface réseau (Windows).
 
 **Utilisation :**
 
-Débloquer le script une seule fois (premiere utilisation) :
+Lancer PowerShell en administrateur et executer :
 ```powershell
-Unblock-File .\change_mac.ps1
-```
-
-Ensuite lancer PowerShell en administrateur :
-```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\change_mac.ps1
 ```
 
