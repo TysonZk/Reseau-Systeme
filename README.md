@@ -7,8 +7,8 @@ Si vous souhaitez ouvrir les fichiers .pkt vous avez besoin de Cisco Packet Trac
 Change l'adresse MAC d'une interface réseau.
 
 **Utilisation :**
-```bash
-sudo bash change_mac.sh
+```
+./change_mac.sh
 ```
 
 - Liste les interfaces réseau disponibles
