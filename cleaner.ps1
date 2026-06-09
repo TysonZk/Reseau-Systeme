@@ -13,16 +13,21 @@ function Get-FolderSize([string]$path) {
 }
 
 function Clean([string]$label, [string[]]$paths) {
-    $freed = 0
+    $before = 0
+    $after  = 0
     foreach ($p in $paths) {
         if (-not (Test-Path $p)) { continue }
-        $freed += Get-FolderSize $p
+        $before += Get-FolderSize $p
         Get-ChildItem $p -Recurse -Force -EA SilentlyContinue | Remove-Item -Recurse -Force -EA SilentlyContinue
+        $after  += Get-FolderSize $p
     }
+    $freed = $before - $after
     $mb = [math]::Round($freed / 1MB, 1)
     $script:totalFreed += $freed
     if ($freed -gt 0) {
         Write-Host ("  [OK] {0,-35} {1} MB liberes" -f $label, $mb) -ForegroundColor Green
+    } elseif ($before -gt 0) {
+        Write-Host ("  [!]  {0,-35} fichiers verrouillos, non supprimables" -f $label) -ForegroundColor Yellow
     } else {
         Write-Host ("  [--] {0,-35} rien a nettoyer" -f $label) -ForegroundColor Gray
     }
