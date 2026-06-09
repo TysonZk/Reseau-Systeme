@@ -54,3 +54,5 @@ Quand il demande confirmation taper `O` puis entrée, ensuite :
 - Affiche les identifiants actuels (MachineGuid, HwProfileGuid, SQM MachineId)
 - Génère de nouveaux identifiants aléatoires
 - Redémarrer le PC pour appliquer les changements
+
+> **Note :** Ce script couvre le spoofing au niveau registre et logiciel (MachineGuid, SMBIOS, NIC GUIDs, volume serial...). Les anti-cheats kernel-level comme Vanguard, EAC ou BattlEye utilisent des drivers ring-0 qui lisent le hardware directement (serial disque, GPU HWID, TPM) et ne sont pas affectés par ce script.
