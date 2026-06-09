@@ -105,7 +105,7 @@ Ce que le script récupère :
 
 ### cleaner.ps1
 
-Nettoie les fichiers temporaires de Windows, navigateurs, GPU et jeux en un clic.
+Nettoie les fichiers temporaires de Windows, navigateurs, GPU et jeux.
 
 **Utilisation :**
 
