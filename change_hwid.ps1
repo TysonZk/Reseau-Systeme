@@ -57,18 +57,18 @@ function Update-NicGuids {
 
 function Set-VolumeSerial {
     try {
-        $drive  = "\\.\C:"
-        $access = [System.IO.FileAccess]::ReadWrite
-        $share  = [System.IO.FileShare]::ReadWrite
-        $fs     = [System.IO.FileStream]::new($drive, [System.IO.FileMode]::Open, $access, $share)
-        $sector = New-Object byte[] 512
-        $null   = $fs.Read($sector, 0, 512)
-        $serial = [byte[]](1..4 | ForEach-Object { Get-Random -Maximum 256 })
-        [System.Buffer]::BlockCopy($serial, 0, $sector, 0x48, 4)
-        $fs.Seek(0, [System.IO.SeekOrigin]::Begin) | Out-Null
-        $fs.Write($sector, 0, 512)
-        $fs.Close()
-        return $true
+        $tmp = "$env:TEMP\VolumeId.zip"
+        $dir = "$env:TEMP\VolumeId"
+        Invoke-WebRequest -Uri "https://download.sysinternals.com/files/VolumeId.zip" -OutFile $tmp -UseBasicParsing
+        Expand-Archive -Path $tmp -DestinationPath $dir -Force
+        $exe = Get-ChildItem $dir -Filter "volumeid64.exe" -Recurse | Select-Object -First 1
+        if (-not $exe) { $exe = Get-ChildItem $dir -Filter "volumeid.exe" -Recurse | Select-Object -First 1 }
+        if (-not $exe) { return $false }
+        $newSerial = "{0}{1}-{2}{3}" -f ('{0:X4}' -f (Get-Random -Maximum 65536)),('{0:X4}' -f (Get-Random -Maximum 65536)),('{0:X4}' -f (Get-Random -Maximum 65536)),('{0:X4}' -f (Get-Random -Maximum 65536))
+        $result = & $exe.FullName C: $newSerial /accepteula 2>&1
+        Remove-Item $tmp -Force -EA SilentlyContinue
+        Remove-Item $dir -Recurse -Force -EA SilentlyContinue
+        return ($LASTEXITCODE -eq 0)
     } catch {
         return $false
     }
