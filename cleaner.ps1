@@ -7,7 +7,9 @@ $totalFreed = 0
 
 function Get-FolderSize([string]$path) {
     if (-not (Test-Path $path)) { return 0 }
-    (Get-ChildItem $path -Recurse -Force -EA SilentlyContinue | Measure-Object -Property Length -Sum).Sum
+    $size = (Get-ChildItem $path -Recurse -Force -File -EA SilentlyContinue | Measure-Object -Property Length -Sum).Sum
+    if ($null -eq $size) { return 0 }
+    return $size
 }
 
 function Clean([string]$label, [string[]]$paths) {
