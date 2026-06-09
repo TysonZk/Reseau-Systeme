@@ -130,21 +130,27 @@ Section "PILOTES GPU - MISE A JOUR"
 Get-CimInstance Win32_VideoController | Where-Object { $_.Name -notmatch "Microsoft|Basic" } | ForEach-Object {
     $name          = $_.Name
     $driverVersion = $_.DriverVersion
-    $driverDate    = $_.DriverDate
     $vendor        = if ($name -match "NVIDIA") { "NVIDIA" } elseif ($name -match "AMD|Radeon") { "AMD" } elseif ($name -match "Intel") { "Intel" } else { "Inconnu" }
+
+    $signed = Get-CimInstance Win32_PnPSignedDriver -EA SilentlyContinue |
+              Where-Object { $_.DeviceName -eq $name } |
+              Select-Object -First 1
+
+    $driverDate = if ($signed -and $signed.DriverDate) { $signed.DriverDate } else { $null }
 
     Row "GPU"             $name
     Row "Version pilote"  $driverVersion
-    Row "Date pilote"     $driverDate
+    Row "Date pilote"     $(if ($driverDate) { $driverDate.ToString("dd/MM/yyyy") } else { "inconnue" })
 
-    $ageJours = if ($driverDate) { ([datetime]::Now - $driverDate).Days } else { $null }
-
-    if ($ageJours -ne $null) {
+    if ($driverDate) {
+        $ageJours = ([datetime]::Now - $driverDate).Days
         if ($ageJours -gt 180) {
             Write-Host ("  {0,-25} : PILOTE ANCIEN ({1} jours) - mise a jour recommandee" -f "Statut", $ageJours) -ForegroundColor Yellow
         } else {
             Write-Host ("  {0,-25} : OK ({1} jours)" -f "Statut", $ageJours) -ForegroundColor Green
         }
+    } else {
+        Write-Host "  Statut                    : impossible de determiner la date du pilote" -ForegroundColor Gray
     }
 
     switch ($vendor) {
