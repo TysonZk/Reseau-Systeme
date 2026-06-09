@@ -69,3 +69,34 @@ Ce que le script modifie :
 | Volume Serial (C:) | Numéro de série du volume C: via VolumeID Sysinternals |
 
 > **Note :** Ce script couvre le spoofing au niveau registre et logiciel. Les anti-cheats kernel-level comme Vanguard, EAC ou BattlEye utilisent des drivers ring-0 qui lisent le hardware directement (serial disque, GPU HWID, TPM) et ne sont pas affectés par ce script.
+
+---
+
+### hwinfo.ps1
+
+Collecte et affiche tous les identifiants matériels et logiciels de la machine.
+
+**Utilisation :**
+
+Lancer PowerShell en administrateur et executer :
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+```
+Quand il demande confirmation taper `O` puis entrée, ensuite :
+```powershell
+.\hwinfo.ps1
+```
+
+Ce que le script récupère :
+
+| Section | Informations |
+|---|---|
+| Système Windows | OS, version, MachineGuid, ProductId, BuildGUID, SQM MachineId, HwProfileGuid |
+| Carte mère / BIOS | Fabricant, modèle, serial, version BIOS, UUID système |
+| Processeur | Nom, ID, fabricant, coeurs, threads, fréquence, socket |
+| RAM | Capacité, vitesse, fabricant, serial, part number par slot |
+| Disques | Nom, serial, taille, interface, PNP Device ID |
+| Volumes | Lettre, label, système de fichiers, volume serial |
+| GPU | Nom, Device ID, PNP Device ID, version driver, VRAM |
+| Réseau | MAC, NetCfgInstanceId, IP, PNP Device ID |
+| Moniteurs | Nom, serial, instance |
